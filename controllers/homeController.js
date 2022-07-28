@@ -1,6 +1,6 @@
 exports.showHome = (req, res)=>{
     res.render('home', {
-        page: 'debJobs',
+        page: 'devJobs',
         tagline: 'Encuentra y pública trabajos para desarrolladores web',
         bar: true,
         button: true
