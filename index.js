@@ -14,7 +14,8 @@ const app = express()
 
 //Habilitando handlebars
 app.engine('handlebars', exphbs.engine({
-    defaultLayout: 'main'
+    defaultLayout: 'main',
+    helpers: require('./helpers/handlebars')
 }))
 app.set('view engine', 'handlebars')
 
