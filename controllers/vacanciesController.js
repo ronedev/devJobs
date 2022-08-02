@@ -30,8 +30,35 @@ exports.showVacant = async (req, res, next)=>{
     if(!vacante) return next()
 
     res.render('vacante',{
-        page: vacante.title,
+        page: `DevJobs | ${vacante.title}`,
         bar: true,
         vacante
     })
+}
+
+exports.editVacant = async (req, res, next)=>{
+    const {url} = req.params
+    const vacante = await Vacant.findOne({url}).lean()
+
+    if(!vacante) return next()
+    
+    res.render('editar-vacante',{
+        page: `Editar | ${vacante.title}`,
+        bar: true,
+        vacante
+    })
+}
+
+exports.saveEditVacant = async (req, res, next)=>{
+    const {url} = req.params
+    const updateVacant = req.body
+
+    updateVacant.skills = req.body.skills.split(',')
+
+    const vacante = await Vacant.findOneAndUpdate({url}, updateVacant,{
+        new:true,
+        runValidators: true
+    })
+
+    res.redirect(`/vacantes/${url}`)
 }

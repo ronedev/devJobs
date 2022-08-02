@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (skills) {
     skills.addEventListener("click", addSkills);
+
+    selectedSkills()
   }
 });
 
@@ -22,3 +24,14 @@ const addSkills = (e) => {
   const skillsArray = [...skills];
   document.querySelector("#skills").value = skillsArray;
 };
+
+const selectedSkills = ()=>{
+  const selected = Array.from(document.querySelectorAll('.lista-conocimientos .activo'))
+
+  selected.forEach(selec =>{
+    skills.add(selec.textContent)
+  })
+
+  const skillsArray = [...skills];
+  document.querySelector("#skills").value = skillsArray;
+}

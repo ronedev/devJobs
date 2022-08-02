@@ -13,7 +13,7 @@
     </div>
     <div class="caja">
         <p class="etiqueta">Salario</p>
-        <p class="nombre">{{vacante.salary}}</p>
+        <p class="nombre">$ {{vacante.salary}}</p>
     </div>
 </div>
 
@@ -23,6 +23,7 @@
         <div class="vacante-descripcion">
             {{{vacante.description}}}
         </div>
+        <a href="/vacantes/editar/{{vacante.url}}" class="btn btn-azul editar-btn">Editar vacante</a>
     </main>
     <aside class="sidebar">
         <h2>Conocimientos Deseados</h2>

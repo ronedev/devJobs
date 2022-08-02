@@ -5,10 +5,15 @@ module.exports = {
         let html = ``
         skills.forEach(skill =>{
             html += `
-                <li>${skill}</li>
+                <li class="${selected.includes(skill) ? 'activo' : ''}">${skill}</li>
             `
         })
 
         return options.fn().html = html;
+    },
+    typeContract: (select, options)=>{
+        return options.fn(this).replace(
+            new RegExp(` value="${select}"`), '$& selected="selected"'
+        )
     }
 }
