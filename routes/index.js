@@ -21,5 +21,7 @@ module.exports = ()=>{
 
     //Crear cuenta
     router.get('/signup', userController.signupForm)
+    router.post('/signup', userController.validateRecords, userController.signup)
+
     return router
 }
