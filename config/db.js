@@ -9,4 +9,5 @@ mongoose.connection.on('error', (error)=>{
     console.log(`Ha ocurrido un error con la conexion de la base de datos: ${error}`)
 })
 
+require('../models/Usuarios')
 require('../models/Vacantes')
