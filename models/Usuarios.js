@@ -35,5 +35,13 @@ usuariosSchema.pre('save', async function(next){
     next()
 })
 
+usuariosSchema.post('save', function(error, doc, next){
+    if(error.code === 11000){
+        next('El correo ingresado pertenece a una cuenta existente')
+    }else{
+        next(error)
+    }
+})
+
 
 module.exports = mongoose.model('User', usuariosSchema)

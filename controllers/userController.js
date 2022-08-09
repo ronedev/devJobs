@@ -27,7 +27,7 @@ exports.validateRecords = async (req, res, next)=>{
 
     if(errores){
         req.flash('error',errores.map(error => error.msg))
-        
+
         res.render('crear-cuenta',{
             page: 'DevJobs | Crear cuenta',
             tagline: 'Crea tu cuenta y empieza a buscar los mejores talentos para tu empresa',
@@ -42,9 +42,11 @@ exports.signup = async (req, res, next) =>{
     //Crear el usuario
     const user = new User(req.body)
 
-    const newUser = user.save()
-
-    if(!newUser) return next()
-
-    res.redirect('/login')
+    try {
+        await user.save()
+        res.redirect('/login')
+    } catch (error) {
+        req.flash('error', error)
+        res.redirect('/signup')
+    }
 }
