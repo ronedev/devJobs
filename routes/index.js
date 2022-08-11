@@ -23,5 +23,8 @@ module.exports = ()=>{
     router.get('/signup', userController.signupForm)
     router.post('/signup', userController.validateRecords, userController.signup)
 
+    //Autenticar cuenta
+    router.get('/login', userController.loginForm)
+
     return router
 }

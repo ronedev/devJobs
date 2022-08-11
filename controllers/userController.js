@@ -50,3 +50,10 @@ exports.signup = async (req, res, next) =>{
         res.redirect('/signup')
     }
 }
+
+//Formulario para iniciar sesion
+exports.loginForm = async (req, res)=>{
+    res.render('login', {
+        page: 'DevJobs | Login'
+    })
+}
