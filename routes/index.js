@@ -28,6 +28,9 @@ module.exports = ()=>{
     router.get('/login', userController.loginForm)
     router.post('/login', authController.authenticateUser)
 
+    //Cerrar sesión
+    router.get('/logout', authController.verifyUser, authController.logout)
+
     //Panel de administración
     router.get('/admin', authController.verifyUser, authController.showPane)
 

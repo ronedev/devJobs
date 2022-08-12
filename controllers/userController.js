@@ -62,7 +62,9 @@ exports.loginForm = (req, res)=>{
 exports.editProfileForm = (req, res)=>{
     res.render('editar-perfil', {
         page: 'DevJobs | Edita tu perfil',
-        user: {name: req.user.name, email: req.user.email}
+        user: {name: req.user.name, email: req.user.email},
+        closeSession: true,
+        userName: req.user.name,
     })
 }
 //Guardar cambios editar perfil

@@ -4,7 +4,9 @@ const Vacant = mongoose.model('Vacant')
 exports.formNewVacant = (req, res)=>{
     res.render('new-vacant', {
         page: 'Crea tu vacante',
-        tagline: 'Llena el formulario y publica tu vacante'
+        tagline: 'Llena el formulario y publica tu vacante',
+        closeSession: true,
+        userName: req.user.name
     })
 }
 
@@ -46,7 +48,8 @@ exports.editVacant = async (req, res, next)=>{
     
     res.render('editar-vacante',{
         page: `Editar | ${vacante.title}`,
-        bar: true,
+        closeSession: true,
+        userName: req.user.name,
         vacante
     })
 }

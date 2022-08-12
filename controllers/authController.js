@@ -9,6 +9,15 @@ exports.authenticateUser = passport.authenticate('local', {
     badRequestMessage: 'Ambos campos son obligatorios'
 })
 
+exports.logout = (req, res, next)=>{
+    req.logout((err)=>{
+        if(err) return next(err)
+
+        req.flash('correcto', 'Has cerrado sesión correctamente')
+        res.redirect('/')
+    })
+}
+
 //middleware para verificar si el usuario se encuentra autenticado
 exports.verifyUser = (req, res, next)=>{
     if(req.isAuthenticated()){
@@ -26,6 +35,8 @@ exports.showPane = async (req, res)=>{
     res.render('admin', {
         page: 'DevJobs | Panel de administración',
         tagline: 'Administra tus vacantes desde aquí',
+        closeSession: true,
+        userName: req.user.name,
         vacancies
     })
 }
