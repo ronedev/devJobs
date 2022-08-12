@@ -31,5 +31,9 @@ module.exports = ()=>{
     //Panel de administración
     router.get('/admin', authController.verifyUser, authController.showPane)
 
+    //Editar perfil
+    router.get('/edit-profile', authController.verifyUser, userController.editProfileForm)
+    router.post('/edit-profile', authController.verifyUser, userController.editProfile)
+
     return router
 }

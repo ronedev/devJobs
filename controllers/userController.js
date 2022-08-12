@@ -52,8 +52,32 @@ exports.signup = async (req, res, next) =>{
 }
 
 //Formulario para iniciar sesion
-exports.loginForm = async (req, res)=>{
+exports.loginForm = (req, res)=>{
     res.render('login', {
         page: 'DevJobs | Login'
     })
+}
+
+//Formulario editar perfil
+exports.editProfileForm = (req, res)=>{
+    res.render('editar-perfil', {
+        page: 'DevJobs | Edita tu perfil',
+        user: {name: req.user.name, email: req.user.email}
+    })
+}
+//Guardar cambios editar perfil
+exports.editProfile = async (req, res)=>{
+    const user = await User.findById(req.user._id)
+
+    user.name = req.body.name
+    user.email = req.body.email
+    if(req.body.password){
+        user.password = req.body.password
+    }
+
+    await user.save()
+
+    req.flash('correcto', 'Cambios guardados correctamente')
+
+    res.redirect('/admin')
 }
