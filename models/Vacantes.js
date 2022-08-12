@@ -1,10 +1,10 @@
-const moongose = require('mongoose')
+const mongoose = require('mongoose')
 
-moongose.Promise = global.Promise
+mongoose.Promise = global.Promise
 const slug = require('slug')
 const shortid = require('shortid')
 
-const vacantesSchema = new moongose.Schema({
+const vacantesSchema = new mongoose.Schema({
     title:{
         type: String,
         required: 'El titulo de la vacante es obligatorio',
@@ -40,7 +40,12 @@ const vacantesSchema = new moongose.Schema({
         name: String,
         email: String,
         cv: String
-    }]
+    }],
+    autor: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: 'El autor es obligatorio'
+    }
 })
 
 vacantesSchema.pre('save', function(next){
@@ -51,4 +56,4 @@ vacantesSchema.pre('save', function(next){
     next()
 })
 
-module.exports = moongose.model('Vacant', vacantesSchema)
+module.exports = mongoose.model('Vacant', vacantesSchema)

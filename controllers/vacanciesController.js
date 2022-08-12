@@ -11,6 +11,8 @@ exports.formNewVacant = (req, res)=>{
 exports.addNewVacant = async (req, res)=>{
     const vacant = new Vacant(req.body)
 
+    vacant.autor = req.user._id
+
     //Crear arreglo de skills
     vacant.skills = req.body.skills.split(',')
     

@@ -1,4 +1,6 @@
 const passport = require('passport')
+const mongoose = require('mongoose')
+const Vacant = mongoose.model('Vacant')
 
 exports.authenticateUser = passport.authenticate('local', {
     successRedirect: '/admin',
@@ -16,9 +18,14 @@ exports.verifyUser = (req, res, next)=>{
     res.redirect('/login')
 }
 
-exports.showPane = (req, res)=>{
+exports.showPane = async (req, res)=>{
+
+    //Consultar las vacantes del usuario autenticado
+    const vacancies = await Vacant.find({autor: req.user._id}).lean()
+
     res.render('admin', {
         page: 'DevJobs | Panel de administración',
-        tagline: 'Administra tus vacantes desde aquí'
+        tagline: 'Administra tus vacantes desde aquí',
+        vacancies
     })
 }
