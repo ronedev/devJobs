@@ -101,3 +101,9 @@ exports.validateVacant = (req, res, next)=>{
 
     next()
 }
+
+exports.deleteVacant = async (req, res)=>{
+    const { id } = req.params
+
+    res.status(200).send('Se ha eliminado la vacante correctamente')
+}

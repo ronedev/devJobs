@@ -17,8 +17,11 @@ module.exports = ()=>{
     router.get('/vacantes/:url', vacanciesController.showVacant)
 
     //Editar vacante
-    router.get('/vacantes/editar/:url', authController.verifyUser, vacanciesController.editVacant)
-    router.post('/vacantes/editar/:url', authController.verifyUser, vacanciesController.validateVacant, vacanciesController.saveEditVacant)
+    router.get('/vacantes/edit/:url', authController.verifyUser, vacanciesController.editVacant)
+    router.post('/vacantes/edit/:url', authController.verifyUser, vacanciesController.validateVacant, vacanciesController.saveEditVacant)
+
+    //Eliminar vacante
+    router.delete('/vacantes/eliminar/:id', vacanciesController.deleteVacant)
 
     //Crear cuenta
     router.get('/signup', userController.signupForm)

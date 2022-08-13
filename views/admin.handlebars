@@ -4,11 +4,11 @@
         <a href="/edit-profile" class="btn btn-azul">Editar Perfil</a>
         <a href="/vacantes/new" class="btn btn-azul">Agregar vacante</a>
     </div>
-
     <h2>Tus vacantes</h2>
+    <div class="panel-administracion">
         {{#if vacancies.length}}
             {{#each vacancies}}
-                <div class="vacante panel-administracion">
+                <div class="vacante">
                     <div class="caja">
                         <h3>{{enterprise}}</h3>
                         <p class="puesto">{{title}}</p>
@@ -20,11 +20,12 @@
                         <a href="/vacantes/edit/{{url}}" class="btn btn-verde">Editar</a>
                     </div>
                     <div class="centrar-vertical caja">
-                        <a href="#" data-delete="{{id}}" class="btn btn-rojo">Eliminar</a>
+                        <a href="#" data-delete={{_id}} class="btn btn-rojo">Eliminar</a>
                     </div>
                 </div>
             {{/each}}
         {{else}}
             <p>Aun no ha creado sus vacantes</p>
         {{/if}}
+    </div>
 </main>
