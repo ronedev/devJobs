@@ -105,5 +105,20 @@ exports.validateVacant = (req, res, next)=>{
 exports.deleteVacant = async (req, res)=>{
     const { id } = req.params
 
-    res.status(200).send('Se ha eliminado la vacante correctamente')
+    const vacant = await Vacant.findById(id)
+
+    if(verifyAutor(vacant, req.user)){
+        //Eliminar propiedad
+        vacant.remove()
+        res.status(200).send('Se ha eliminado la vacante correctamente')
+    }else{
+        res.status(403).send('Ha ocurrido un error al eliminar la vacante')
+    }
+}
+
+const verifyAutor = (vacant = {}, actualUser = {})=>{
+    if(vacant.autor.equals(actualUser._id)){
+        return true
+    }
+    return false
 }
