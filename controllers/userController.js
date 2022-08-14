@@ -1,5 +1,38 @@
 const mongoose = require('mongoose')
 const User = mongoose.model('User')
+const multer = require('multer')
+const shortid = require('shortid')
+
+exports.uploadImage = (req, res, next)=>{
+    upload(req, res, function(error){
+        if(error instanceof multer.MulterError){
+            return next()
+        }
+    })
+    next()
+}
+
+
+const multerConfiguration = {
+    storage: fileStorage = multer.diskStorage({
+        destination: (req, file, callback)=>{
+            callback(null, __dirname+'../../public/uploads/profiles')
+        },
+        filename: (req, file, callback)=>{
+            const extension = file.mimetype.split('/')[1]
+            callback(null, `${shortid.generate()}.${extension}`)
+        }
+    }),
+    fileFilter(req, file, callback){
+        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
+            callback(null, true)
+        }else{
+            callback(null, false)
+        }
+    },
+    limits: { fileSize: 100000}
+}
+const upload = multer(multerConfiguration).single('image')
 
 exports.signupForm = (req, res)=>{
     res.render('crear-cuenta',{
@@ -75,6 +108,10 @@ exports.editProfile = async (req, res)=>{
     user.email = req.body.email
     if(req.body.password){
         user.password = req.body.password
+    }
+
+    if(req.file){
+        user.image = req.file.filename
     }
 
     await user.save()

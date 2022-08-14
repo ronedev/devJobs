@@ -39,7 +39,10 @@ module.exports = ()=>{
 
     //Editar perfil
     router.get('/edit-profile', authController.verifyUser, userController.editProfileForm)
-    router.post('/edit-profile', authController.verifyUser, userController.validateProfile, userController.editProfile)
+    router.post('/edit-profile', authController.verifyUser,
+    // userController.validateProfile,
+    userController.uploadImage, 
+    userController.editProfile)
 
     return router
 }
