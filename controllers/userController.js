@@ -106,9 +106,10 @@ exports.loginForm = (req, res)=>{
 exports.editProfileForm = (req, res)=>{
     res.render('editar-perfil', {
         page: 'DevJobs | Edita tu perfil',
-        user: {name: req.user.name, email: req.user.email},
+        user: {name: req.user.name, email: req.user.email, image: req.user.image},
         closeSession: true,
         userName: req.user.name,
+        userImage: req.user.image
     })
 }
 //Guardar cambios editar perfil
@@ -155,6 +156,7 @@ exports.validateProfile = (req, res, next)=>{
             user: {name: req.user.name, email: req.user.email},
             closeSession: true,
             userName: req.user.name,
+            userImage: req.user.image,
             messages: req.flash()
         })       
     }

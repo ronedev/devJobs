@@ -6,7 +6,8 @@ exports.formNewVacant = (req, res)=>{
         page: 'Crea tu vacante',
         tagline: 'Llena el formulario y publica tu vacante',
         closeSession: true,
-        userName: req.user.name
+        userName: req.user.name,
+        userImage: req.user.image
     })
 }
 
@@ -50,6 +51,7 @@ exports.editVacant = async (req, res, next)=>{
         page: `Editar | ${vacante.title}`,
         closeSession: true,
         userName: req.user.name,
+        userImage: req.user.image,
         vacante
     })
 }
@@ -95,6 +97,7 @@ exports.validateVacant = (req, res, next)=>{
             tagline: 'Llena el formulario y publica tu vacante',
             closeSession: true,
             userName: req.user.name,
+            userImage: req.user.image,  
             messages: req.flash()
         })
     }
