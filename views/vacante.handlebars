@@ -34,3 +34,16 @@
         </ul>
     </aside>
 </div>
+<div class="contenedor datos-reclutador">
+    <div class="enviar-datos"></div>
+
+    <div class="info-reclutador">
+        <h2>Información reclutador</h2>
+        {{#if vacante.autor.name}}
+            <p>{{vacante.autor.name}}</p>
+        {{/if}}
+        {{#if vacante.autor.image}}
+            <img src="/uploads/profiles/{{vacante.autor.image}}" alt="profile image" />
+        {{/if}}
+    </div>
+</div>
