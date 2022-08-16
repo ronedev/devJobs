@@ -41,3 +41,10 @@ exports.showPane = async (req, res)=>{
         vacancies
     })
 }
+
+exports.formRestorePassword = (req, res)=>{
+    res.render('restablecer-contraseña', {
+        page: 'Restablece tu contraseña',
+        tagline: 'Si ya tienes una cuenta pero olvidaste tu contraseña realiza los siguientes pasos:'
+    })
+}

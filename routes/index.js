@@ -39,6 +39,9 @@ module.exports = ()=>{
     //Cerrar sesión
     router.get('/logout', authController.verifyUser, authController.logout)
 
+    //Restablecer contraseña
+    router.get('/restore-password', authController.formRestorePassword)
+
     //Panel de administración
     router.get('/admin', authController.verifyUser, authController.showPane)
 
