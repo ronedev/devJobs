@@ -15,13 +15,18 @@ module.exports = ()=>{
 
     //Mostrar vacante
     router.get('/vacantes/:url', vacanciesController.showVacant)
+    //Recibir contacto candidatos
+    router.post('/vacantes/:url', vacanciesController.uploadCV, vacanciesController.contact)
 
     //Editar vacante
     router.get('/vacantes/edit/:url', authController.verifyUser, vacanciesController.editVacant)
     router.post('/vacantes/edit/:url', authController.verifyUser, vacanciesController.validateVacant, vacanciesController.saveEditVacant)
-
+    
     //Eliminar vacante
     router.delete('/vacantes/eliminar/:id', vacanciesController.deleteVacant)
+    
+    //Mostrar candidatos
+    router.get('/candidates/:id', authController.verifyUser, vacanciesController.showCandidates)
 
     //Crear cuenta
     router.get('/signup', userController.signupForm)
@@ -43,6 +48,7 @@ module.exports = ()=>{
     // userController.validateProfile,
     userController.uploadImage, 
     userController.editProfile)
+
 
     return router
 }

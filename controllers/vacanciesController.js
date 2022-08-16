@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Vacant = mongoose.model('Vacant')
+const multer = require('multer')
+const shortid = require('shortid')
 
 exports.formNewVacant = (req, res)=>{
     res.render('new-vacant', {
@@ -124,4 +126,82 @@ const verifyAutor = (vacant = {}, actualUser = {})=>{
         return true
     }
     return false
+}
+
+//Subir archivos en pdf
+exports.uploadCV = (req, res, next)=>{
+    upload(req, res, function(error){
+        if(error){
+            if(error instanceof multer.MulterError){//Verifica si es un error de multer
+                if(error.code === 'LIMIT_FILE_SIZE'){
+                    req.flash('error', 'El archivo seleccionado es demasiado grande, máximo 100kb')
+                }else{
+                    req.flash('error', error.message)
+                }
+            }else{
+                req.flash('error', error.message)
+            }
+            res.redirect('back')
+            return
+        }else{
+            return next()
+        }
+    })
+}
+
+const multerConfiguration = {
+    limits: { fileSize: 400000},
+    storage: fileStorage = multer.diskStorage({
+        destination: (req, file, callback)=>{
+            callback(null, __dirname+'../../public/uploads/cv')
+        },
+        filename: (req, file, callback)=>{
+            const extension = file.mimetype.split('/')[1]
+            callback(null, `${shortid.generate()}.${extension}`)
+        }
+    }),
+    fileFilter(req, file, callback){
+        if(file.mimetype === 'application/pdf'){
+            callback(null, true)
+        }else{
+            callback(new Error('Formato no valido'), false)
+        }
+    }
+}
+const upload = multer(multerConfiguration).single('cv')
+
+exports.contact = async (req, res, next)=>{
+
+    const vacant = await Vacant.findOne({url: req.params.url})
+
+    if(!vacant) return next()
+
+    const newCandidate = {
+        name: req.body.name,
+        email: req.body.email,
+        cv: req.file.filename
+    }
+
+    //Almacenar la vacante
+    vacant.candidates.push(newCandidate)
+    await vacant.save()
+
+    req.flash('correcto', 'Te has postulado correctamente')
+}
+
+exports.showCandidates = async(req, res, next)=>{
+    const {id} = req.params
+
+    const vacant = await Vacant.findById(id).lean()
+
+    if(!vacant) return next()
+    if(vacant.autor != req.user._id.toString()) return next()
+
+    res.render('candidatos',{
+        page: `Candidatos vacante ${vacant.title}`,
+        closeSession: true,
+        userName: req.user.name,
+        userImage: req.user.image,
+        candidatos: vacant.candidates
+    })
 }

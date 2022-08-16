@@ -25,6 +25,7 @@ exports.uploadImage = (req, res, next)=>{
 
 
 const multerConfiguration = {
+    limits: { fileSize: 100000},
     storage: fileStorage = multer.diskStorage({
         destination: (req, file, callback)=>{
             callback(null, __dirname+'../../public/uploads/profiles')
@@ -34,7 +35,6 @@ const multerConfiguration = {
             callback(null, `${shortid.generate()}.${extension}`)
         }
     }),
-    limits: { fileSize: 100000},
     fileFilter(req, file, callback){
         if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg'){
             callback(null, true)
