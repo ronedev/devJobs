@@ -79,3 +79,44 @@ exports.sendToken = async(req, res)=>{
     req.flash('correcto', 'Te enviamos un email con los pasos a seguir')
     res.redirect('/login')
 }
+
+exports.resetPassword = async(req, res)=>{
+    const user = await User.findOne({
+        token: req.params.token,
+        expira: {
+            $gt: Date.now()
+        }
+    })
+
+    if(!user){
+        req.flash('error', 'Ha ocurrido un error, por favor intentelo nuevamente')
+        return res.redirect('/reset-password')
+    }
+
+    res.render('nueva-contraseña', {
+        page: 'Modifica tu contraseña',
+    })
+}
+
+exports.saveNewPassword = async(req, res)=>{
+    const user = await User.findOne({
+        token: req.params.token,
+        expira: {
+            $gt: Date.now()
+        }
+    })
+
+    if(!user){
+        req.flash('error', 'Ha ocurrido un error, por favor intentelo nuevamente')
+        return res.redirect('/reset-password')
+    }
+
+    user.password = req.body.password
+    user.token = undefined
+    user.expira = undefined
+
+    await user.save()
+
+    req.flash('correcto', 'Contraseña modificada correctamente')
+    res.redirect('/login')
+}
