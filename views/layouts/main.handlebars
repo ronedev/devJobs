@@ -18,8 +18,8 @@
         </h1>
         {{#if bar}}
             <div class="buscador">
-                <form action="#">
-                    <input type="text" class="buscar">
+                <form action="/searcher" method="post">
+                    <input type="text" class="buscar" name="q">
                     <input type="submit" value="Buscar">
                 </form>
             </div>

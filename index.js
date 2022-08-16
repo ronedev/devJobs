@@ -11,6 +11,7 @@ const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
 const flash = require('connect-flash')
 const passport = require('./config/passport.js')
+const createError = require('http-errors')
 
 require('dotenv').config({path: 'variables.env'})
 
@@ -58,4 +59,22 @@ app.use((req, res, next)=>{
 
 app.use('/', router())
 
-app.listen(process.env.PORT)
+//En caso de no encontrar la ruta seguira por el siguiente middelware, por eso utilice return next() en caso de algunos errores en los controladores
+app.use((req, res, next)=>{
+    next(createError(404, 'Página no encontrada'))
+})
+
+//Administración de los errores
+app.use((error, req, res, next)=>{
+    res.locals.message = error.message
+    const status = error.status || 500
+    res.locals.status = status
+    res.status(status)
+    res.render('error')
+})
+
+const host = "0.0.0.0"
+
+app.listen(process.env.PORT, host, ()=>{
+    console.log('El servidor esta corriendo')
+})

@@ -47,7 +47,6 @@ module.exports = ()=>{
     router.get('/restore-password/:token', authController.resetPassword)
     router.post('/restore-password/:token', authController.saveNewPassword)
 
-
     //Panel de administración
     router.get('/admin', authController.verifyUser, authController.showPane)
 
@@ -57,6 +56,9 @@ module.exports = ()=>{
     // userController.validateProfile,
     userController.uploadImage, 
     userController.editProfile)
+
+    //Buscador de vacantes
+    router.post('/searcher', vacanciesController.searchVacant)
 
 
     return router

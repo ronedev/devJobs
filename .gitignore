@@ -1,6 +1,10 @@
 #env files
 *.env
 
+#public files
+public/uploads/cv/*
+public/uploads/profiles/*
+
 # Logs
 logs
 *.log
