@@ -41,6 +41,7 @@ module.exports = ()=>{
 
     //Restablecer contraseña
     router.get('/restore-password', authController.formRestorePassword)
+    router.post('/restore-password', authController.sendToken)
 
     //Panel de administración
     router.get('/admin', authController.verifyUser, authController.showPane)

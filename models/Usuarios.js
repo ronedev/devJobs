@@ -20,7 +20,7 @@ const usuariosSchema = new mongoose.Schema({
         trim: true
     },
     token: String,
-    expira: Date,
+    expires: Date,
     image: String
 })
 

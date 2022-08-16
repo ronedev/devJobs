@@ -1,6 +1,9 @@
 const passport = require('passport')
 const mongoose = require('mongoose')
 const Vacant = mongoose.model('Vacant')
+const User = mongoose.model('User')
+const crypto = require('crypto')
+const enviarEmail = require('../handlers/email.js')
 
 exports.authenticateUser = passport.authenticate('local', {
     successRedirect: '/admin',
@@ -47,4 +50,32 @@ exports.formRestorePassword = (req, res)=>{
         page: 'Restablece tu contraseña',
         tagline: 'Si ya tienes una cuenta pero olvidaste tu contraseña realiza los siguientes pasos:'
     })
+}
+
+exports.sendToken = async(req, res)=>{
+    const { email } = req.body
+
+    const user = await User.findOne({email})
+
+    if(!user){
+        req.flash('error', 'El email ingresado no corresponde a una cuenta registrada')
+        return res.redirect('/login')
+    }
+
+    user.token = crypto.randomBytes(20).toString('hex')
+    user.expires = Date.now() + 3600000
+
+    await user.save()
+
+    const resetUrl = `http://${req.headers.host}/restore-password/${user.token}`
+
+    await enviarEmail.enviar({
+        user,
+        resetUrl,
+        subject: 'Password reset',
+        archivo: 'reset'
+    })
+
+    req.flash('correcto', 'Te enviamos un email con los pasos a seguir')
+    res.redirect('/login')
 }
